@@ -33,7 +33,7 @@ class TransaccionViewModel (
     }
 }
 
-class TransaccionViewModelFactory(private val repository: TransaccionRepository):
+class TransaccionViewModelFactory(val repository: TransaccionRepository):
     ViewModelProvider.Factory{
     override fun<T: ViewModel> create (modelClass: Class<T>): T{
         if (modelClass.isAssignableFrom(TransaccionViewModel::class.java)){
