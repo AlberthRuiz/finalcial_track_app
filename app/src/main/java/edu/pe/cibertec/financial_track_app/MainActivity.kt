@@ -73,7 +73,6 @@ fun MainScreen(viewModel: TransaccionViewModel) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {showDialog= true}
-
             ) {
                 Text("+")
 
@@ -89,7 +88,7 @@ fun MainScreen(viewModel: TransaccionViewModel) {
                         TransaccionItem(
                             transaccion = transaccion,
                             onDelete = { viewModel.delete(it)},
-                            onClickAction = { transaccionEditar }
+                            onClick = { transaccionEditar }
                         )
 
                     }
@@ -105,17 +104,16 @@ fun MainScreen(viewModel: TransaccionViewModel) {
 fun TransaccionItem(
     transaccion: Transaccion,
     onDelete: (Transaccion) -> Unit,
-    onClickAction: (Transaccion) -> Unit
+    onClick: (Transaccion) -> Unit
 ){
     Card(
         modifier = Modifier.fillMaxWidth().padding(8.dp).clickable {
-            onClickAction(transaccion)
+            onClick(transaccion)
         },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().padding(10.dp),
-
         ) {
             Column () {
                 Text("Descripcion")
