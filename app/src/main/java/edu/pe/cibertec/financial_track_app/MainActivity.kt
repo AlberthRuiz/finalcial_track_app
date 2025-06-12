@@ -51,7 +51,6 @@ class MainActivity : ComponentActivity() {
         val factory = TransaccionViewModelFactory(repository)
         val viewModel = ViewModelProvider(this, factory)[TransaccionViewModel::class.java]
 
-
         setContent {
             Financial_track_appTheme {
                 MainScreen(viewModel)
@@ -123,7 +122,7 @@ fun TransaccionItem(
             IconButton(onClick = {onDelete(transaccion)}) {
                 Icon(Icons.Default.Delete, contentDescription = "Eliminar")
             }
-    }
+        }
     }
 
 }
