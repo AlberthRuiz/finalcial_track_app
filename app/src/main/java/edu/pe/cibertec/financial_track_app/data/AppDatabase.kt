@@ -5,5 +5,6 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [Transaccion::class], version = 1, exportSchema = false)
 abstract class AppDatabase: RoomDatabase(){
-    abstract fun TranasaccionDao(): TranasaccionDao
+
+    abstract fun transaccionDao(): TranasaccionDao
 }
