@@ -1,21 +1,17 @@
 package edu.pe.cibertec.financial_track_app.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TranasaccionDao{
-    @Query("select * from transaactions ORDER BY date DESC")
-    fun getAllTransactions(): Flow<List<Transaccion>>
+    @Query("select * from TRANSACCIONES ORDER BY date DESC")
+    fun getAll(): Flow<List<Transaccion>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTransaction(transaccion: Transaccion)
+    suspend fun insert(transaccion: Transaccion)
 
     @Delete
-    fun deleteTransaction(transaccion: Transaccion)
+    suspend fun  delete(transaccion: Transaccion)
 
 }

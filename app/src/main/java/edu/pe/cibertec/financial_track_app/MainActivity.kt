@@ -1,6 +1,5 @@
 package edu.pe.cibertec.financial_track_app
 
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,26 +16,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+
+
 import edu.pe.cibertec.financial_track_app.data.DatabaseProvider
 import edu.pe.cibertec.financial_track_app.data.Transaccion
-import edu.pe.cibertec.financial_track_app.data.TransaccionRepository
+import edu.pe.cibertec.financial_track_app.repository.TransaccionRepository
 import edu.pe.cibertec.financial_track_app.screens.AddTransaccionesDialog
 import edu.pe.cibertec.financial_track_app.ui.theme.Financial_track_appTheme
 import edu.pe.cibertec.financial_track_app.viewmodel.TransaccionViewModel
