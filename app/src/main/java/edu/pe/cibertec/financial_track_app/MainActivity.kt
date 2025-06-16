@@ -37,6 +37,7 @@ import androidx.lifecycle.ViewModelProvider
 import edu.pe.cibertec.financial_track_app.data.DatabaseProvider
 import edu.pe.cibertec.financial_track_app.data.Transaccion
 import edu.pe.cibertec.financial_track_app.data.TransaccionRepository
+import edu.pe.cibertec.financial_track_app.screens.AddTransaccionesDialog
 import edu.pe.cibertec.financial_track_app.ui.theme.Financial_track_appTheme
 import edu.pe.cibertec.financial_track_app.viewmodel.TransaccionViewModel
 import edu.pe.cibertec.financial_track_app.viewmodel.TransaccionViewModelFactory
@@ -58,41 +59,67 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(viewModel: TransaccionViewModel) {
-    val transaccciones  by viewModel.trnasaacciones.collectAsState()
+    val transaccciones by viewModel.trnasaacciones.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
-    var transaccionEditar by remember { mutableStateOf<Transaccion?>(null)}
+    var transaccionEditar by remember { mutableStateOf<Transaccion?>(null) }
 
-    Scaffold (topBar = {
-        TopAppBar( title =  { Text("APP Trackeo Gastos") })
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("APP Trackeo Gastos") })
 
-    },
+        },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {showDialog= true}
+                onClick = { showDialog = true }
             ) {
                 Text("+")
 
             }
         }
-        ) {
-        paddingVal ->
-         @Composable {
-            Column (modifier = Modifier.padding(paddingVal).fillMaxSize()
+    ) { paddingVal ->
+        @Composable {
+            Column(
+                modifier = Modifier
+                    .padding(paddingVal)
+                    .fillMaxSize()
             ) {
                 LazyColumn {
-                    items(transaccciones) {transaccion  ->
+                    items(transaccciones) { transaccion ->
                         TransaccionItem(
                             transaccion = transaccion,
-                            onDelete = { viewModel.delete(it)},
+                            onDelete = { viewModel.delete(it) },
                             onClick = { transaccionEditar }
                         )
 
                     }
                 }
             }
+        }
+        if (showDialog) {
+            AddTransaccionesDialog(
+                onAdd = { transaccion ->
+                    viewModel.insert(transaccion)
+                    showDialog = false
+                },
+                onDismiss = {
+                    showDialog = false
+                }
+            )
+        }
+        if (transaccionEditar != null) {
+            AddTransaccionesDialog(
+                onAdd = { UpdateTransaccion ->
+                    viewModel.insert(UpdateTransaccion)
+                    transaccionEditar = null
+                },
+                onDismiss = {
+                    transaccionEditar = null
+                }
+            )
         }
 
     }
@@ -104,22 +131,27 @@ fun TransaccionItem(
     transaccion: Transaccion,
     onDelete: (Transaccion) -> Unit,
     onClick: (Transaccion) -> Unit
-){
+) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(8.dp).clickable {
-            onClick(transaccion)
-        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable {
+                onClick(transaccion)
+            },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
         ) {
-            Column () {
+            Column() {
                 Text("Descripcion")
                 Text("Tipo")
                 Text("Monto")
             }
-            IconButton(onClick = {onDelete(transaccion)}) {
+            IconButton(onClick = { onDelete(transaccion) }) {
                 Icon(Icons.Default.Delete, contentDescription = "Eliminar")
             }
         }
