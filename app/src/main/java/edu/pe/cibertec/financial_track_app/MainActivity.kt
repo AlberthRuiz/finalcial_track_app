@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +24,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 
@@ -75,24 +78,24 @@ fun MainScreen(viewModel: TransaccionViewModel) {
             }
         }
     ) { paddingVal ->
-        @Composable {
-            Column(
-                modifier = Modifier
-                    .padding(paddingVal)
-                    .fillMaxSize()
-            ) {
-                LazyColumn {
-                    items(transaccciones) { transaccion ->
-                        TransaccionItem(
-                            transaccion = transaccion,
-                            onDelete = { viewModel.delete(it) },
-                            onClick = { transaccionEditar }
-                        )
 
-                    }
+        Column(
+            modifier = Modifier
+                .padding(paddingVal)
+                .fillMaxSize()
+        ) {
+            LazyColumn {
+                items(transaccciones) { transaccion ->
+                    TransaccionItem(
+                        transaccion = transaccion,
+                        onDelete = { viewModel.delete(it) },
+                        onClick = { transaccionEditar = it }
+                    )
+
                 }
             }
         }
+
         if (showDialog) {
             AddTransaccionesDialog(
                 onAdd = { transaccion ->
@@ -106,6 +109,7 @@ fun MainScreen(viewModel: TransaccionViewModel) {
         }
         if (transaccionEditar != null) {
             AddTransaccionesDialog(
+                transaccion =  transaccionEditar,
                 onAdd = { UpdateTransaccion ->
                     viewModel.insert(UpdateTransaccion)
                     transaccionEditar = null
@@ -139,11 +143,17 @@ fun TransaccionItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Column() {
-                Text("Descripcion")
-                Text("Tipo")
-                Text("Monto")
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = transaccion.description)
+                Text(text = "${if (transaccion.type == "Ingreso") "+" else "-"}S/ ${transaccion.amount}")
+                Text(
+                    text = "Fecha: ${
+                        java.text.SimpleDateFormat("yyyy-MM-dd")
+                            .format(java.util.Date(transaccion.date))
+                    }"
+                )
             }
             IconButton(onClick = { onDelete(transaccion) }) {
                 Icon(Icons.Default.Delete, contentDescription = "Eliminar")
